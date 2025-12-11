@@ -12,6 +12,7 @@ import java.util.List;
  * @author Asus
  */
 public class Paciente {
+    private int id;
     private String nombre;
     private int edad;
     private List<String> sintomas;
@@ -25,7 +26,15 @@ public class Paciente {
         this.edad = edad;
         this.sintomas = sintomas;
     }
+    
+    public int getId() {
+        return id;
+    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getNombre() {
         return nombre;
     }
@@ -49,5 +58,36 @@ public class Paciente {
     public void setSintomas(List<String> sintomas) {
         this.sintomas = sintomas;
     }    
+    
+    // Método para registrar el paciente en la base de datos
+    public int registrarEnBaseDatos() throws Exception {
+        PacienteDAO pacienteDAO = new PacienteDAO();
+
+        // Verificar si el paciente ya existe
+        Paciente existente = pacienteDAO.buscarPorNombre(this.nombre);
+        if (existente != null) {
+            throw new Exception("Ya existe un paciente con ese nombre");
+        }
+
+        // Validar datos
+        if (this.nombre == null || this.nombre.trim().isEmpty()) {
+            throw new Exception("El nombre del paciente es requerido");
+        }
+
+        if (this.edad <= 0 || this.edad > 120) {
+            throw new Exception("La edad debe ser un valor válido (1-120)");
+        }
+
+        // Insertar en la base de datos
+        int pacienteId = pacienteDAO.insertarPaciente(this);
+        this.id = pacienteId; // Guardar el ID generado
+
+        return pacienteId;
+    }
+
+    @Override
+    public String toString() {
+        return nombre + " (Edad: " + edad + ")";
+    }
     
 }

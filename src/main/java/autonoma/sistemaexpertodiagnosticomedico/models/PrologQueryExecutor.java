@@ -23,65 +23,59 @@ public class PrologQueryExecutor {
         }
     }
     
-    public static List<Organismo> getAnimals(String rule) {
-        List<Organismo> lista = new ArrayList<>();
-
-        Query q = new Query(rule);
-
+    public static List<Enfermedad> getEnfermedades(String rule) {
+        List<Enfermedad> lista = new ArrayList<>();
+        Query q = new Query(rule); //Crear consultas y hechos
+        
         while (q.hasMoreSolutions()) {
-            Map<String, Term> sol = q.nextSolution();
+            //quiero que metas la consulta de el query
+            Map<String, Term> sol = q.nextSolution();//Es como un diccionario (sol= solucion)
 
-            // Id puede no venir (porque usaste _)
-            Integer id = null;
-            Term idT = sol.get("Id");     // no existirá en sol
-            if (idT != null) {
-                try {
-                    id = Integer.parseInt(idT.toString());
-                } catch (NumberFormatException e) {
-                    // si no es número, déjalo nulo
-                }
-            }
-
-            // Nombre puede no venir (porque usaste jaguar como átomo fijo)
             String nombre = null;
-            Term nombreT = sol.get("Nombre");   // no existirá tampoco
+            Term nombreT = sol.get("Nombre");
             if (nombreT != null) {
                 nombre = nombreT.toString();
             }
-
-            // Especie sí viene
-            String especie = null;
-            Term especieT = sol.get("Especie"); // SÍ existirá
-            if (especieT != null) {
-                especie = especieT.toString();
+            
+            List<String> sintomas = null;
+            Term sintoT = sol.get("Sintomas");
+            if(sintoT != null){
+                sintomas = proListToJavaList(sintoT);
+                
             }
 
-            Organismo o = new Organismo(id, nombre, especie);
-            lista.add(o);
-        }
-
-        q.close();
-        return lista;
-    }
-    public static List<Depredacion> getDepredaciones(String rule) {
-        List<Depredacion> lista = new ArrayList<>();
-
-        Query q = new Query(rule);
-
-        while (q.hasMoreSolutions()) {
-            Map<String, Term> sol = q.nextSolution();
-
-            Term depT = sol.get("Depredador");
-            Term preyT = sol.get("Presa");
-
-            String dep = depT != null ? depT.toString() : null;
-            String prey = preyT != null ? preyT.toString() : null;
-
-            lista.add(new Depredacion(dep, prey));
+            // Especie sí viene
+            String categoria = null;
+            Term categoT = sol.get("Categoria");
+            if (categoT != null) {
+                categoria = categoT.toString();
+            }
+            
+            String recomendacion = null;
+            Term recoT = sol.get("Recomendacion");
+            if (recoT != null) {
+                recomendacion = recoT.toString();
+            }
+            
+            Enfermedad e = new Enfermedad(nombre, sintomas,categoria, recomendacion);
+            lista.add(e);
         }
 
         q.close();
         return lista;
     }
     
+    private static List<String> proListToJavaList(Term t) {
+        List<String> lista = new ArrayList<>();
+        Term list = t; 
+
+        // JPL representa listas como pares [Head|Tail]
+        while (list.isListPair()) {
+            Term head = list.arg(1);   // Extrae el primer elemento
+            lista.add(head.toString()); // Convierte a String Java
+            list = list.arg(2);        // Avanza al resto de la lista
+        }
+        return lista;
+    }
+
 }

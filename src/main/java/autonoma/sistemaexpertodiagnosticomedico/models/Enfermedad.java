@@ -5,6 +5,7 @@
 package autonoma.sistemaexpertodiagnosticomedico.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -12,29 +13,20 @@ import java.util.ArrayList;
  */
 public class Enfermedad {
     
-    private int id;
     private String nombre;
     private String recomendacion_basica;
     private String nombreCategoria;
-    private ArrayList<String> listaSintomas;
+    private List<String> listaSintomas;
     
     public Enfermedad(){
-        
+        this.listaSintomas = new ArrayList<>();
     }
 
-    public Enfermedad(int id, String nombre, String recomendacion_basica, String nombreCategoria, ArrayList<String> listaSintomas) {
+    public Enfermedad(String nombre, List listaSintomas , String nombreCategoria,String recomendacion_basica) {
         this.nombre = nombre;
-        this.recomendacion_basica = recomendacion_basica;
-        this.nombreCategoria = nombreCategoria;
         this.listaSintomas = listaSintomas;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.nombreCategoria = nombreCategoria;
+        this.recomendacion_basica = recomendacion_basica;
     }
 
     public String getNombre() {
@@ -61,13 +53,12 @@ public class Enfermedad {
         this.nombreCategoria = nombreCategoria;
     }
 
-    public ArrayList<String> getListaSintomas() {
+    public List<String> getListaSintomas() {
         return listaSintomas;
     }
 
-    public void setListaSintomas(ArrayList<String> listaSintomas) {
+    public void setListaSintomas(List<String> listaSintomas) {
         this.listaSintomas = listaSintomas;
     }
-    
-    
+
 }

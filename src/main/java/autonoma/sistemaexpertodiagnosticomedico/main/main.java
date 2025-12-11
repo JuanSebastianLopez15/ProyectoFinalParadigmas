@@ -4,7 +4,10 @@
 
 package autonoma.sistemaexpertodiagnosticomedico.main;
 
+import autonoma.sistemaexpertodiagnosticomedico.models.Enfermedad;
+import autonoma.sistemaexpertodiagnosticomedico.models.FactsBuilder;
 import autonoma.sistemaexpertodiagnosticomedico.models.PrologQueryExecutor;
+import autonoma.sistemaexpertodiagnosticomedico.views.VentanaPrincipal;
 import java.util.List;
 import org.jpl7.Query;
 
@@ -14,7 +17,7 @@ import org.jpl7.Query;
  */
 public class main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) {      
         String rules = "consult('prologPF.pl')";
        
         Query q = new Query(rules);
@@ -22,17 +25,17 @@ public class main {
         if (q.hasSolution()) {
             System.out.println("Archivo Prolog cargado correctamente.");
         }
-        FactsBuilder.construirFactsOrganismo();
-        List<Organismo> lista = PrologQueryExecutor.getAnimals("organismo(Id, jaguar, Especie)");
-        for(Organismo o : lista){
-            System.out.println("Nombre: " + o.getId());
-            System.out.println("Nombre: " + o.getNombre());
-            System.out.println("Nombre: " + o.getEspecie());
+        FactsBuilder.construirFactsEnfermedad();
+        //Consulta
+        List<Enfermedad> lista = PrologQueryExecutor.getEnfermedades("enfermedad(Nombre, sintomas(Sintomas), categoria(Categoria),recomendaciones(Recomendacion)).");
+        for(Enfermedad e : lista){
+            System.out.println("Nombre: " + e.getNombre());
+            System.out.println("Sintomas: " + e.getListaSintomas());
+            System.out.println("Categoria: " + e.getNombreCategoria());
+            System.out.println("Recomendacion: " + e.getRecomendacion_basica());
         }      
-        List<Depredacion> depredaciones = PrologQueryExecutor.getDepredaciones("depreda(Depredador, Presa).");
-        for(Depredacion d : depredaciones){
-            System.out.println("Depredador: " + d.getDepredador());
-            System.out.println("Presa: " + d.getPresa());
-        }   
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        ventana.setVisible(true);
+        
     }
 }

@@ -4,6 +4,8 @@
  */
 package autonoma.sistemaexpertodiagnosticomedico.views;
 
+import autonoma.sistemaexpertodiagnosticomedico.models.Diagnostico;
+import autonoma.sistemaexpertodiagnosticomedico.models.DiagnosticoDAO;
 import autonoma.sistemaexpertodiagnosticomedico.models.Paciente;
 import autonoma.sistemaexpertodiagnosticomedico.models.PacienteDAO;
 import java.sql.SQLException;
@@ -17,67 +19,37 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
 
-    private PacienteDAO pacienteDAO;
     
     public VentanaMostrarInfoPacientes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(parent);
-        pacienteDAO = new PacienteDAO();
-        cargarDatosPacientes();
+        this.cargarDatos();
     }
-
-    private void cargarDatosPacientes() {
+    private void cargarDatos() {
+        DiagnosticoDAO dao = new DiagnosticoDAO();
         try {
-            // Obtener todos los pacientes de la base de datos
-            List<Paciente> pacientes = pacienteDAO.buscarTodos();
+            List<Diagnostico> diagnosticos = dao.buscarTodos();
 
-            // Obtener el modelo de la tabla
-            DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
+            DefaultTableModel modelo = (DefaultTableModel)Tabla.getModel();
 
-            // Limpiar la tabla
             modelo.setRowCount(0);
 
-            // Llenar la tabla con los datos de los pacientes
-            for (Paciente paciente : pacientes) {
-                // Convertir la lista de síntomas a String
-                String sintomasStr = "";
-                if (paciente.getSintomas() != null && !paciente.getSintomas().isEmpty()) {
-                    sintomasStr = String.join(", ", paciente.getSintomas());
-                }
-
-                // Agregar fila a la tabla
-                Object[] fila = {
-                    paciente.getId(),
-                    paciente.getNombre(),
-                    paciente.getEdad(),
-                    sintomasStr
-                };
+            for (Diagnostico d : diagnosticos) {
+                Object[] fila = new Object[4];
+                fila[0] = d.getNombre_paciente();
+                fila[1] = d.getEnfermedades();
+                fila[2] = d.getSintomas();
+                fila[3] = d.getRecomendaciones();
                 modelo.addRow(fila);
             }
 
-            // Mostrar mensaje si no hay pacientes
-            if (pacientes.isEmpty()) {
-                JOptionPane.showMessageDialog(this,
-                        "No hay pacientes registrados en el sistema.",
-                        "Información",
-                        JOptionPane.INFORMATION_MESSAGE);
-            }
-
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error al cargar los pacientes: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
-            e.printStackTrace();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Error inesperado: " + e.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error al cargar los diagnósticos: " + e.getMessage());
             e.printStackTrace();
         }
     }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -103,7 +75,7 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(176, 176, 176)
+                .addGap(243, 243, 243)
                 .addComponent(jLabel1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -123,7 +95,7 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
                 {null, null, null, null}
             },
             new String [] {
-                "Id", "Nombre", "edad", "Sintomas"
+                "Nombre paciente", "Enfermedad", "Sintoma", "Recomendacion"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -149,25 +121,21 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(37, 37, 37)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 624, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61)
-                .addComponent(jButton1)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 887, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(30, 30, 30))))
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -181,7 +149,9 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();

@@ -4,58 +4,46 @@
  */
 package autonoma.sistemaexpertodiagnosticomedico.models;
 
-import java.util.List;
-
-/**
- *
- * @author Asus
- */
 public class Diagnostico {
-    private int id;
-    private Paciente paciente;
-    private List<Enfermedad> enfermedadesPosibles;
-    private String sintomasIngresados;
+    
+    private String nombre_paciente;
+    private String enfermedades;
+    private String sintomas;
+    private String recomendaciones;
 
-    public Diagnostico(int id, Paciente paciente, List<Enfermedad> enfermedadesPosibles, String sintomasIngresados) {
-        this.id = id;
-        this.paciente = paciente;
-        this.enfermedadesPosibles = enfermedadesPosibles;
-        this.sintomasIngresados = sintomasIngresados;
-    }
-    public Diagnostico(){
+    public Diagnostico() {
         
     }
 
-    public int getId() {
-        return id;
+    public String getNombre_paciente() {
+        return nombre_paciente;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setNombre_paciente(String nombre_paciente) {
+        this.nombre_paciente = nombre_paciente;
     }
 
-    public Paciente getPaciente() {
-        return paciente;
+    public String getEnfermedades() {
+        return enfermedades;
     }
 
-    public void setPaciente(Paciente paciente) {
-        this.paciente = paciente;
+    public void setEnfermedades(String enfermedades) {
+        this.enfermedades = enfermedades;
     }
 
-    public List<Enfermedad> getEnfermedadesPosibles() {
-        return enfermedadesPosibles;
+    public String getSintomas() {
+        return sintomas;
     }
 
-    public void setEnfermedadesPosibles(List<Enfermedad> enfermedadesPosibles) {
-        this.enfermedadesPosibles = enfermedadesPosibles;
+    public void setSintomas(String sintomas) {
+        this.sintomas = sintomas;
     }
 
-    public String getSintomasIngresados() {
-        return sintomasIngresados;
+    public String getRecomendaciones() {
+        return recomendaciones;
     }
 
-    public void setSintomasIngresados(String sintomasIngresados) {
-        this.sintomasIngresados = sintomasIngresados;
+    public void setRecomendaciones(String recomendaciones) {
+        this.recomendaciones = recomendaciones;
     }
-    
 }

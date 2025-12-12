@@ -1,9 +1,10 @@
+autonoma\sistemaexpertodiagnosticomedico\views\VentanaCategorias$1.class
+autonoma\sistemaexpertodiagnosticomedico\views\VentanaCategorias$2.class
 autonoma\sistemaexpertodiagnosticomedico\views\VentanaPrincipal$5.class
 autonoma\sistemaexpertodiagnosticomedico\models\SintomaDAO.class
 autonoma\sistemaexpertodiagnosticomedico\models\EnfermedadDAO.class
 autonoma\sistemaexpertodiagnosticomedico\views\VentanaPrincipal$4.class
 autonoma\sistemaexpertodiagnosticomedico\views\VentanaPrincipal.class
-autonoma\sistemaexpertodiagnosticomedico\views\VentanaDiagnostico.class
 autonoma\sistemaexpertodiagnosticomedico\views\VentanaMostrarInfoPacientes.class
 autonoma\sistemaexpertodiagnosticomedico\models\MySQLConnection.class
 autonoma\sistemaexpertodiagnosticomedico\models\Enfermedad.class

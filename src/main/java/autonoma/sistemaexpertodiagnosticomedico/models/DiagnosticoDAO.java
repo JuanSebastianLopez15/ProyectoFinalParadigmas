@@ -36,7 +36,7 @@ public class DiagnosticoDAO {
                 try {
                     rs.close();
                 } catch (SQLException ignored) {
-                    System.out.println("Error closing result set");
+                    System.out.println("Error");
                 }
             }
 
@@ -44,7 +44,7 @@ public class DiagnosticoDAO {
                 try {
                     ps.close();
                 } catch (SQLException ignored) {
-                    System.out.println("Error closing prepared statement");
+                    System.out.println("Error");
                 }
             }
         }

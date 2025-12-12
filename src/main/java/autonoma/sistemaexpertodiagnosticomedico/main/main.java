@@ -28,10 +28,6 @@ public class main {
                 System.out.println("Recomendaciones: " + e.getRecomendacion_basica());
             }
             
-            //Consultas Coincide_sintoma
-            //List<Enfermedad> lista = PrologQueryExecutor.getDiagnosticos(sintomasPaciente);
-            
-            
             // Abrir ventana
             VentanaPrincipal ventana = new VentanaPrincipal();
             ventana.setVisible(true);

@@ -26,6 +26,8 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
         this.setLocationRelativeTo(parent);
         this.cargarDatos();
     }
+    
+    //En mi tabla muestro los datos que tengo en mi base de datos de los diagnosticos
     private void cargarDatos() {
         DiagnosticoDAO dao = new DiagnosticoDAO();
         try {
@@ -33,7 +35,7 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
 
             DefaultTableModel modelo = (DefaultTableModel)Tabla.getModel();
 
-            modelo.setRowCount(0);
+            modelo.setRowCount(0);//Vacia las vilas
 
             for (Diagnostico d : diagnosticos) {
                 Object[] fila = new Object[4];
@@ -45,7 +47,7 @@ public class VentanaMostrarInfoPacientes extends javax.swing.JDialog {
             }
 
         } catch (SQLException e) {
-            System.out.println("Error al cargar los diagnósticos: " + e.getMessage());
+            System.out.println("Error al cargar los diagnosticos: " + e.getMessage());
             e.printStackTrace();
         }
     }

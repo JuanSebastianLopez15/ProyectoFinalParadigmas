@@ -144,7 +144,7 @@ public class SintomaDAO {
      */
     public List<Sintoma> buscarSintomasPorNombre(String busqueda) throws SQLException {
         List<Sintoma> sintomas = new ArrayList<>();
-        String sql = "SELECT sin_id, sin_nombre FROM sintomas WHERE sin_nombre LIKE ? ORDER BY sin_nombre";
+        String sql = "SELECT sin_id, sin_nombre FROM sintomas WHERE sin_nombre LIKE ?";
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, "%" + busqueda + "%");
@@ -161,9 +161,6 @@ public class SintomaDAO {
         return sintomas;
     }
 
-    /**
-     * Verifica si un síntoma ya existe en la base de datos
-     */
     public boolean existeSintoma(String nombre) throws SQLException {
         String sql = "SELECT COUNT(*) as count FROM sintomas WHERE sin_nombre = ?";
 

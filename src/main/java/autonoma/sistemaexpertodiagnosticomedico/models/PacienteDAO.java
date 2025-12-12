@@ -18,7 +18,7 @@ public class PacienteDAO {
 
     // Método para insertar un nuevo paciente
     public int insertarPaciente(Paciente paciente) throws SQLException {
-        // Primero obtener el próximo ID disponible
+        
         String sqlMaxId = "SELECT COALESCE(MAX(pac_id), 0) + 1 as next_id FROM pacientes";
         int nextId;
 

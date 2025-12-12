@@ -62,13 +62,14 @@ public class EnfermedadDAO {
         return enfermedades;
     }
     
-    
+    //agrupa filas SQL en un objeto enfermedad sin duplicar
     private List<Enfermedad> mapRow(ResultSet rs) throws SQLException {
         List<Enfermedad> enfermedades = new ArrayList<>();
         Set<String> enfermedadesSinDuplicados = new HashSet<>();
         try {
             while(rs.next()){
                 if(!enfermedadesSinDuplicados.contains(rs.getString("enf_nombre"))){
+                    //Enfermedad aparece por primera vez
                     enfermedadesSinDuplicados.add(rs.getString("enf_nombre"));
                     enfermedadesSinDuplicados.add(rs.getString("nombre_categoria"));
                     enfermedadesSinDuplicados.add(rs.getString("recomendacion_basica"));
@@ -78,8 +79,11 @@ public class EnfermedadDAO {
                     e.setNombreCategoria(rs.getString("nombre_categoria"));
                     e.setRecomendacion_basica(rs.getString("recomendacion_basica"));
                     enfermedades.add(e);
+                    //No va sintomas porque los sintomas si se pueden repetir
+                    //La lista de sintomas esta dentro de enfermedad, no es una clave duplicada
                 }
                 else{
+                    //Ya vi la enfermedad antes, le agrego el nuevo sintoma
                     for(int i =0 ; i<enfermedades.size();i++){
                         if(enfermedades.get(i).getNombre().equals(rs.getString("enf_nombre"))){
                             enfermedades.get(i).getListaSintomas().add(rs.getString("nombre_sintoma"));

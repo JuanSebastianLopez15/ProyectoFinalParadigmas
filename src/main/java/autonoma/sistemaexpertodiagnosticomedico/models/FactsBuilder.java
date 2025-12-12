@@ -23,7 +23,7 @@ public class FactsBuilder {
     public static boolean construirFactsEnfermedad(){
         EnfermedadDAO dao = new EnfermedadDAO();
         try{
-            List<Enfermedad> lista = dao.buscarTodos();
+            List<Enfermedad> lista = dao.buscarTodos();//Le pido todas las enfermedades que saque de la BD
             
             for(Enfermedad t : lista){
                 StringBuilder sb = new StringBuilder();
@@ -38,7 +38,7 @@ public class FactsBuilder {
                         sb.append("]), categoria(")
                         .append(t.getNombreCategoria()).append("), recomendaciones([")
                         .append(t.getRecomendacion_basica()).append("])))");
-                PrologQueryExecutor.createDynamicFact(sb.toString());
+                PrologQueryExecutor.createDynamicFact(sb.toString());//Analiza 1 por 1, mete los hechos en prolog
             }
         }catch(SQLException e){
             System.out.println("Error retrieving data");

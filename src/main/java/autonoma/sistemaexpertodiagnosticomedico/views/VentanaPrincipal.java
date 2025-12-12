@@ -75,7 +75,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     
     private List<Enfermedad> pEnfermedades(List<String> sintomas) {
-        // Convertir lista Java a formato Prolog: [fiebre,tos,dolor_cabeza]
+        // Convertir lista Java a formato Prolog
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < sintomas.size(); i++) {
@@ -86,7 +86,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
         sb.append("]");
 
-        // Primero intentar con coincidencia exacta
         String consultaExacta = "coincide_sintomas(Nombre, " + sb.toString() + ")";
         System.out.println("Consulta exacta: " + consultaExacta);
         List<Enfermedad> enfermedadesExactas = PrologQueryExecutor.getEnfermedades(consultaExacta);
@@ -96,45 +95,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             return enfermedadesExactas;
         }
 
-        // Si no hay coincidencia exacta, buscar con diagnóstico parcial
         String consultaDiagnostico = "diagnostico(" + sb.toString() + ", Nombre)";
         System.out.println("Consulta diagnóstico: " + consultaDiagnostico);
         List<Enfermedad> posiblesEnfermedades = PrologQueryExecutor.getEnfermedades(consultaDiagnostico);
 
         System.out.println("Encontradas " + posiblesEnfermedades.size() + " posibles enfermedades");
         return posiblesEnfermedades;
-    }
-    private Enfermedad enfermedadMasProbable(List<Enfermedad> lista) {
-        if (lista == null || lista.isEmpty()) {
-            return null;
-        }
-
-        // Contar ocurrencias de cada enfermedad
-        Map<String, Integer> contador = new HashMap<>();
-        for (Enfermedad e : lista) {
-            String nombre = e.getNombre();
-            contador.put(nombre, contador.getOrDefault(nombre, 0) + 1);
-        }
-
-        // Encontrar la enfermedad con más ocurrencias
-        String mejorNombre = null;
-        int maxOcurrencias = 0;
-
-        for (Map.Entry<String, Integer> entry : contador.entrySet()) {
-            if (entry.getValue() > maxOcurrencias) {
-                mejorNombre = entry.getKey();
-                maxOcurrencias = entry.getValue();
-            }
-        }
-
-        // Retornar la primera instancia de la enfermedad más probable
-        for (Enfermedad e : lista) {
-            if (e.getNombre().equals(mejorNombre)) {
-                return e;
-            }
-        }
-
-        return null;
     }
     
     @SuppressWarnings("unchecked")
@@ -490,13 +456,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
-                    "La edad debe ser un número válido",
+                    "La edad debe ser un número valido",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        // Obtener síntomas seleccionados
+        // Obtener sintomas
         List<String> sintomas = listaSintomas();
 
         if (sintomas.isEmpty()) {
@@ -508,7 +474,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
 
         try {
-            // 1. Crear/obtener paciente
+            // paciente
             int pacienteId;
             Paciente existente = pacienteDAO.buscarPorNombre(nombre);
 
@@ -521,18 +487,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 pacienteId = pacienteDAO.insertarPaciente(nuevoPaciente);
             }
 
-            // 2. Buscar posibles enfermedades en Prolog
+            //Buscar posibles enfermedades en Prolog
             List<Enfermedad> posiblesEnfermedades = pEnfermedades(sintomas);
 
             if (posiblesEnfermedades.isEmpty()) {
                 JOptionPane.showMessageDialog(this,
-                        "No se encontraron enfermedades que coincidan con esos síntomas",
+                        "No se encontraron enfermedades que coincidan con esos sintomas",
                         "Sin resultados",
                         JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
 
-            // 3. Obtener nombres únicos de enfermedades
+            // Obtener nombres enfermedades
             Set<String> nombresUnicos = new HashSet<>();
             List<String> listaEnfermedades = new ArrayList<>();
 
@@ -543,7 +509,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
 
-            // 4. Obtener detalles completos de cada enfermedad desde Prolog
+            // Obtener detalles enfermedad desde Prolog
             StringBuilder todasEnfermedades = new StringBuilder();
             StringBuilder todasRecomendaciones = new StringBuilder();
 
@@ -564,7 +530,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
 
-            // 5. Preparar sintomas para guardar
+            //sintomas para guardar
             StringBuilder sintomasStr = new StringBuilder();
             
             for (int i = 0; i < sintomas.size(); i++) {
@@ -574,7 +540,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 }
             }
 
-            // 6. Guardar diagnóstico con TODAS las enfermedades en la base de datos
+            //Guardar diagnostico base de datos
             boolean guardado = diagnosticoDAO.insertarDiagnosticoCompleto(
                     pacienteId,
                     sintomasStr.toString(),
@@ -584,7 +550,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
             if (guardado) {
                 JOptionPane.showMessageDialog(this,
-                        "Diagnóstico guardado exitosamente\n\n"
+                        "Diagnostico guardado exitosamente\n\n"
                         + "Posibles enfermedades: " + todasEnfermedades.toString());
             } else {
                 JOptionPane.showMessageDialog(this,
@@ -592,7 +558,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
-
+            //posibles errores
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this,
                     "Error de base de datos: " + e.getMessage(),
@@ -608,11 +574,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDiagnoNuevoActionPerformed
     private void crearNuevoPaciente() {
-        // Obtener datos de los campos de texto
+        // Obtener datos de paciente de mis text field
         String nombre = txtNombreP.getText().trim();
         String edadTexto = txtEdadP.getText().trim();
 
-        // Validar que los campos no estén vacíos
+        // Validar campos no vacias
         if (nombre.isEmpty() || edadTexto.isEmpty()) {
             JOptionPane.showMessageDialog(this,
                     "Por favor complete todos los campos.",
@@ -621,7 +587,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             return;
         }
 
-        // Validar la edad
+        // Validar edad
         int edad;
         try {
             edad = Integer.parseInt(edadTexto);
@@ -634,23 +600,23 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             }
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
-                    "La edad debe ser un número válido.",
+                    "La edad debe ser un numero valido.",
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
 
         try {
-            // Crear objeto Paciente
+            //Paciente
             Paciente paciente = new Paciente();
             paciente.setNombre(nombre);
             paciente.setEdad(edad);
 
-            // Verificar si el paciente ya existe
+            // Verificar paciente existe
             Paciente existente = pacienteDAO.buscarPorNombre(nombre);
             if (existente != null) {
                 int respuesta = JOptionPane.showConfirmDialog(this,
-                        "Ya existe un paciente con ese nombre.\n¿Desea continuar de todos modos?",
+                        "Ya existe un paciente con ese nombre.\nDesea continuar de todos modos?",
                         "Paciente existente",
                         JOptionPane.YES_NO_OPTION);
 
@@ -662,16 +628,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             // Insertar paciente en la base de datos
             int pacienteId = pacienteDAO.insertarPaciente(paciente);
 
-            // Mostrar mensaje de éxito
+            // Mensaje de exito
             JOptionPane.showMessageDialog(this,
-                    "Paciente creado exitosamente!\n"
+                    "Paciente creado exitosamente\n"
                     + "ID: " + pacienteId + "\n"
                     + "Nombre: " + nombre + "\n"
                     + "Edad: " + edad,
                     "Éxito",
                     JOptionPane.INFORMATION_MESSAGE);
 
-            // Limpiar campos después del registro
+            // Limpiar campos
             limpiarCampos();
 
         } catch (SQLException e) {
@@ -682,24 +648,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             e.printStackTrace();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this,
-                    "Error inesperado: " + e.getMessage(),
+                    "Error: " + e.getMessage(),
                     "Error",
                     JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }
 
-    // Método para limpiar los campos del formulario
+    // Lo uso para limpiar campos de los text field
     private void limpiarCampos() {
         txtNombreP.setText("");
         txtEdadP.setText("");
-        txtNombreP.requestFocus(); // Colocar el cursor en el campo de nombre
+        txtNombreP.requestFocus();
     }
 
-    // Método para salir de la aplicación
+    // Salir de la interfaz con un mensaje de verificaccion
     private void salirAplicacion() {
         int respuesta = JOptionPane.showConfirmDialog(this,
-                "Está seguro que desea salir de la aplicación?",
+                "Esta seguro que desea salir de la aplicacion?",
                 "Confirmar salida",
                 JOptionPane.YES_NO_OPTION);
 

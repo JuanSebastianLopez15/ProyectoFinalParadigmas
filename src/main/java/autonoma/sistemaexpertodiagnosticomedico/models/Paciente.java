@@ -63,13 +63,13 @@ public class Paciente {
     public int registrarEnBaseDatos() throws Exception {
         PacienteDAO pacienteDAO = new PacienteDAO();
 
-        // Verificar si el paciente ya existe
+        
         Paciente existente = pacienteDAO.buscarPorNombre(this.nombre);
         if (existente != null) {
             throw new Exception("Ya existe un paciente con ese nombre");
         }
 
-        // Validar datos
+        
         if (this.nombre == null || this.nombre.trim().isEmpty()) {
             throw new Exception("El nombre del paciente es requerido");
         }
@@ -80,7 +80,7 @@ public class Paciente {
 
         // Insertar en la base de datos
         int pacienteId = pacienteDAO.insertarPaciente(this);
-        this.id = pacienteId; // Guardar el ID generado
+        this.id = pacienteId;
 
         return pacienteId;
     }

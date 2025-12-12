@@ -13,10 +13,10 @@ import java.sql.SQLException;
  * @author Juan
  */
 public class MySQLConnection {
-    private static MySQLConnection instance;   // the one and only
+    private static MySQLConnection instance; 
     private Connection connection;
 
-    // replace with your own credentials
+   
     private final String url = "jdbc:mysql://localhost:3306/sistemaexpertodiagnomedico";
     private final String user = "root";
     private final String password = "root";

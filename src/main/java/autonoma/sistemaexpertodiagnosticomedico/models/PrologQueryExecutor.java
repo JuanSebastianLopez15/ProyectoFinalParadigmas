@@ -18,6 +18,8 @@ import org.jpl7.Term;
  * @author Juan
  */
 public class PrologQueryExecutor {
+    
+    //ejecuta los assertz en prolog con el queryy
     public static void createDynamicFact(String fact){
         Query q = new Query(fact);
         if (q.hasSolution()) {
@@ -25,7 +27,7 @@ public class PrologQueryExecutor {
         }
     }
     
-    
+    //ejecuta consulta en prolog, mapea
     public static List<Enfermedad> getEnfermedades(String rule) {
         List<Enfermedad> lista = new ArrayList<>();
         Query q = new Query(rule); //Crear consultas y hechos
@@ -33,7 +35,7 @@ public class PrologQueryExecutor {
         while (q.hasMoreSolutions()) {
             //quiero que metas la consulta de el query
             Map<String, Term> sol = q.nextSolution();//Es como un diccionario (sol= solucion)
-
+            //El nombre de la variable de prolog debe coincidir exactamente con la clave de sol.get()
             String nombre = null;
             Term nombreT = sol.get("Nombre");
             if (nombreT != null) {
@@ -47,7 +49,7 @@ public class PrologQueryExecutor {
                 
             }
 
-            // Especie sí viene
+            
             String categoria = null;
             Term categoT = sol.get("Categoria");
             if (categoT != null) {
@@ -73,7 +75,7 @@ public class PrologQueryExecutor {
         List<String> lista = new ArrayList<>();
         Term list = t; 
 
-        // JPL representa listas como pares [Head|Tail]
+        
         while (list.isListPair()) {
             Term head = list.arg(1);   // Extrae el primer elemento
             lista.add(head.toString()); // Convierte a String Java

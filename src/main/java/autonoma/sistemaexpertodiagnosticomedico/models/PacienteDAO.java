@@ -79,7 +79,7 @@ public class PacienteDAO {
         return pacientes;
     }
 
-    // Método para buscar paciente por nombre (útil para verificar si ya existe)
+    // Método para buscar paciente por nombre
     public Paciente buscarPorNombre(String nombre) throws SQLException {
         String sql = "SELECT * FROM pacientes WHERE pac_nombre = ?";
 

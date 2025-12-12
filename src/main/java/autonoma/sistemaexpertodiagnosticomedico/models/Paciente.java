@@ -59,7 +59,7 @@ public class Paciente {
         this.sintomas = sintomas;
     }    
     
-    // Método para registrar el paciente en la base de datos
+    // Metodo para registrar el paciente en la base de datos
     public int registrarEnBaseDatos() throws Exception {
         PacienteDAO pacienteDAO = new PacienteDAO();
 

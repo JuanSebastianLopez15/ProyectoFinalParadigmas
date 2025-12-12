@@ -57,7 +57,8 @@ public class PrologQueryExecutor {
             String recomendacion = null;
             Term recoT = sol.get("Recomendacion");
             if (recoT != null) {
-                recomendacion = recoT.toString();
+                List<String> recomendacionesList = proListToJavaList(recoT);
+                recomendacion = String.join(", ", recomendacionesList);
             }
             
             Enfermedad e = new Enfermedad(nombre, sintomas,categoria, recomendacion);

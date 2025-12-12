@@ -12,8 +12,10 @@ import autonoma.sistemaexpertodiagnosticomedico.models.PrologQueryExecutor;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -68,9 +70,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (this.ojosLlorosos.isSelected()) {
             sintomas.add("ojos_llorosos");
         }       
-        if (this.txtOtrosintoma.getText() != null && !this.txtOtrosintoma.getText().trim().isEmpty()) {
-            sintomas.add(this.txtOtrosintoma.getText().trim());
-        }
+        
         return sintomas;       
     }
     
@@ -165,9 +165,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         escalofrios = new javax.swing.JCheckBox();
         fatiga = new javax.swing.JCheckBox();
         dolorGarganta = new javax.swing.JCheckBox();
-        txtOtrosintoma = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
         btnVerCategorias = new javax.swing.JButton();
+        btnDiagnoNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -285,16 +284,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         dolorGarganta.setForeground(new java.awt.Color(255, 255, 255));
         dolorGarganta.setText("dolor de garganta");
 
-        jLabel6.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Otro Sintoma: ");
-
         btnVerCategorias.setBackground(new java.awt.Color(102, 0, 102));
         btnVerCategorias.setFont(new java.awt.Font("Stencil", 0, 36)); // NOI18N
         btnVerCategorias.setText("Categorias");
         btnVerCategorias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVerCategoriasActionPerformed(evt);
+            }
+        });
+
+        btnDiagnoNuevo.setText("Ingresar diagnostico en la base de datos");
+        btnDiagnoNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDiagnoNuevoActionPerformed(evt);
             }
         });
 
@@ -311,46 +313,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                         .addGap(25, 25, 25)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtNombreP, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                                .addComponent(btnPacienteNuevoCrear)
+                                .addComponent(txtNombreP, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtEdadP))
-                            .addComponent(btnPacienteNuevoCrear)
-                            .addComponent(btnSalirApp))
+                            .addComponent(btnSalirApp)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(139, 139, 139)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(fiebre)
+                                        .addGap(109, 109, 109))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(dolorcabeza)
-                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(dolorMuscular)
-                                                        .addComponent(dolorGarganta, javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(estornudos))
-                                                    .addComponent(tos))
-                                                .addGap(45, 45, 45))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(fiebre)
-                                                .addGap(109, 109, 109)))
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(ojosLlorosos)
-                                            .addComponent(secrecionNasal)
-                                            .addComponent(escalofrios)
-                                            .addComponent(dolorCuerpo)
-                                            .addComponent(congestionNasal)
-                                            .addComponent(fatiga))
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtOtrosintoma, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                            .addComponent(btnDiagnoNuevo)
+                                            .addComponent(dolorcabeza)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(dolorMuscular)
+                                                .addComponent(dolorGarganta, javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(estornudos))
+                                            .addComponent(tos))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ojosLlorosos)
+                                    .addComponent(secrecionNasal)
+                                    .addComponent(escalofrios)
+                                    .addComponent(dolorCuerpo)
+                                    .addComponent(congestionNasal)
+                                    .addComponent(fatiga))
+                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(182, 182, 182)
@@ -358,7 +351,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                         .addGap(100, 100, 100))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                         .addComponent(btonVerInfoPacintes)
-                                        .addGap(20, 20, 20))))))
+                                        .addGap(20, 20, 20))))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel3)))
@@ -369,25 +365,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 4, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnPacienteNuevoCrear)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSalirApp)
-                        .addGap(107, 107, 107))
+                        .addComponent(btonVerInfoPacintes, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnVerCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btonVerInfoPacintes, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnVerCategorias, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5))
-                                .addGap(18, 18, 18)
                                 .addComponent(txtNombreP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -395,20 +383,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                     .addComponent(congestionNasal))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(tos)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addGap(1, 1, 1)
-                                                .addComponent(jLabel4)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(txtEdadP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(dolorcabeza)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(dolorMuscular)))
-                                        .addGap(32, 32, 32))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(fatiga)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -418,17 +392,37 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(secrecionNasal)
-                                            .addComponent(estornudos))))
+                                            .addComponent(estornudos))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(dolorGarganta)
+                                            .addComponent(ojosLlorosos)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(tos)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(dolorcabeza)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(dolorMuscular))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(9, 9, 9)
+                                                .addComponent(jLabel4)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(txtEdadP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnPacienteNuevoCrear)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dolorGarganta)
-                                    .addComponent(ojosLlorosos))
-                                .addGap(49, 49, 49)
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(txtOtrosintoma, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addContainerGap())))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnDiagnoNuevo))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(btnSalirApp))))
+                            .addComponent(jLabel5))
+                        .addGap(52, 52, 52)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -471,6 +465,148 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         VentanaCategorias categorias = new VentanaCategorias(this, true);
         categorias.setVisible(true);
     }//GEN-LAST:event_btnVerCategoriasActionPerformed
+
+    private void btnDiagnoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiagnoNuevoActionPerformed
+        String nombre = txtNombreP.getText().trim();
+        String edadTexto = txtEdadP.getText().trim();
+
+        if (nombre.isEmpty() || edadTexto.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor ingrese nombre y edad del paciente",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int edad;
+        try {
+            edad = Integer.parseInt(edadTexto);
+            if (edad <= 0 || edad > 120) {
+                JOptionPane.showMessageDialog(this,
+                        "La edad debe estar entre 1 y 120 años",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this,
+                    "La edad debe ser un número válido",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Obtener síntomas seleccionados
+        List<String> sintomas = listaSintomas();
+
+        if (sintomas.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione al menos un síntoma",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        try {
+            // 1. Crear/obtener paciente
+            int pacienteId;
+            Paciente existente = pacienteDAO.buscarPorNombre(nombre);
+
+            if (existente != null) {
+                pacienteId = existente.getId();
+            } else {
+                Paciente nuevoPaciente = new Paciente();
+                nuevoPaciente.setNombre(nombre);
+                nuevoPaciente.setEdad(edad);
+                pacienteId = pacienteDAO.insertarPaciente(nuevoPaciente);
+            }
+
+            // 2. Buscar posibles enfermedades en Prolog
+            List<Enfermedad> posiblesEnfermedades = pEnfermedades(sintomas);
+
+            if (posiblesEnfermedades.isEmpty()) {
+                JOptionPane.showMessageDialog(this,
+                        "No se encontraron enfermedades que coincidan con esos síntomas",
+                        "Sin resultados",
+                        JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+
+            // 3. Obtener nombres únicos de enfermedades
+            Set<String> nombresUnicos = new HashSet<>();
+            List<String> listaEnfermedades = new ArrayList<>();
+
+            for (Enfermedad enf : posiblesEnfermedades) {
+                if (!nombresUnicos.contains(enf.getNombre())) {
+                    nombresUnicos.add(enf.getNombre());
+                    listaEnfermedades.add(enf.getNombre());
+                }
+            }
+
+            // 4. Obtener detalles completos de cada enfermedad desde Prolog
+            StringBuilder todasEnfermedades = new StringBuilder();
+            StringBuilder todasRecomendaciones = new StringBuilder();
+
+            for (int i = 0; i < listaEnfermedades.size(); i++) {
+                String nombreEnf = listaEnfermedades.get(i);
+                String consulta = "enfermedad(" + nombreEnf
+                        + ", sintomas(Sintomas), categoria(Categoria), recomendaciones(Recomendacion))";
+                List<Enfermedad> detalles = PrologQueryExecutor.getEnfermedades(consulta);
+
+                if (detalles != null && !detalles.isEmpty()) {
+                    todasEnfermedades.append(nombreEnf);
+                    todasRecomendaciones.append(detalles.get(0).getRecomendacion_basica());
+
+                    if (i < listaEnfermedades.size() - 1) {
+                        todasEnfermedades.append(", ");
+                        todasRecomendaciones.append("; ");
+                    }
+                }
+            }
+
+            // 5. Preparar sintomas para guardar
+            StringBuilder sintomasStr = new StringBuilder();
+            
+            for (int i = 0; i < sintomas.size(); i++) {
+                sintomasStr.append(sintomas.get(i));
+                if (i < sintomas.size() - 1) {
+                    sintomasStr.append(",");
+                }
+            }
+
+            // 6. Guardar diagnóstico con TODAS las enfermedades en la base de datos
+            boolean guardado = diagnosticoDAO.insertarDiagnosticoCompleto(
+                    pacienteId,
+                    sintomasStr.toString(),
+                    todasEnfermedades.toString(), 
+                    todasRecomendaciones.toString() 
+            );
+
+            if (guardado) {
+                JOptionPane.showMessageDialog(this,
+                        "Diagnóstico guardado exitosamente\n\n"
+                        + "Posibles enfermedades: " + todasEnfermedades.toString());
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        "Error al guardar el diagnostico",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error de base de datos: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this,
+                    "Error inesperado: " + e.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnDiagnoNuevoActionPerformed
     private void crearNuevoPaciente() {
         // Obtener datos de los campos de texto
         String nombre = txtNombreP.getText().trim();
@@ -563,7 +699,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // Método para salir de la aplicación
     private void salirAplicacion() {
         int respuesta = JOptionPane.showConfirmDialog(this,
-                "¿Está seguro que desea salir de la aplicación?",
+                "Está seguro que desea salir de la aplicación?",
                 "Confirmar salida",
                 JOptionPane.YES_NO_OPTION);
 
@@ -572,6 +708,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDiagnoNuevo;
     private javax.swing.JButton btnPacienteNuevoCrear;
     private javax.swing.JButton btnSalirApp;
     private javax.swing.JButton btnVerCategorias;
@@ -590,7 +727,6 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JCheckBox ojosLlorosos;
@@ -598,6 +734,5 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private javax.swing.JCheckBox tos;
     private javax.swing.JTextField txtEdadP;
     private javax.swing.JTextField txtNombreP;
-    private javax.swing.JTextField txtOtrosintoma;
     // End of variables declaration//GEN-END:variables
 }

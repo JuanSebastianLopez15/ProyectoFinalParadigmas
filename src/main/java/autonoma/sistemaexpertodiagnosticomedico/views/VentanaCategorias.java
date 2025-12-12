@@ -162,7 +162,7 @@ public class VentanaCategorias extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.exit(0);
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void cbxDesplegableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxDesplegableActionPerformed

@@ -68,4 +68,29 @@ public class DiagnosticoDAO {
         }
         return diagnosticos;
     }
+    
+    public boolean insertarDiagnosticoCompleto(int pacienteId, String sintomas, String enfermedad, String recomendaciones) throws SQLException {
+        String sql = "INSERT INTO diagnosticos (pac_id, sintomas, enfermedades, recomendaciones) VALUES (?, ?, ?, ?)";
+
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, pacienteId);
+            ps.setString(2, sintomas);
+            ps.setString(3, enfermedad);
+            ps.setString(4, recomendaciones);
+
+            int filasAfectadas = ps.executeUpdate();
+            return filasAfectadas > 0;
+
+        } finally {
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ignored) {
+                    System.out.println("Error closing prepared statement");
+                }
+            }
+        }
+    }
 }
